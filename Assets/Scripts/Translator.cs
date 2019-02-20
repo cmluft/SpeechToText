@@ -11,7 +11,7 @@ public class Translator : MonoBehaviour {
     public static Translator instance;
     private string translationTextEndpoint = "https://api.cognitive.microsofttranslator.com/v2/http.svc/Translate?";
     private string translationTokenEndpoint = "https://centralus.api.cognitive.microsoft.com/sts/v1.0/issueToken?";
-    
+    private const string ocpApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
 
     private const string authorizationKey = "1922157948de4017b038fb590def9679";
     private string authorizationToken;
@@ -40,7 +40,10 @@ public class Translator : MonoBehaviour {
         }
         using (UnityWebRequest unityWebRequest = UnityWebRequest.Post(translationTokenEndpoint, string.Empty))
         {
-            unityWebRequest.SetRequestHeader("Subscription-Key", key);
+            unityWebRequest.SetRequestHeader("Ocp-Apim-Subscription-Key", key);
+           // unityWebRequest.SetRequestHeader("Subscription-Key", key);
+            yield return unityWebRequest.SendWebRequest();
+           
 
             if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
             {
@@ -63,7 +66,7 @@ public class Translator : MonoBehaviour {
         using (UnityWebRequest unityWebRequest = UnityWebRequest.Get(translationTextEndpoint + queryString))
         {
             unityWebRequest.SetRequestHeader("Authorization", "Bearer" + authorizationToken);
-            unityWebRequest.SetRequestHeader("Accept", "application/xml");
+            unityWebRequest.SetRequestHeader("Accept-Language", "application/xml");
             yield return unityWebRequest.SendWebRequest();
 
             if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
@@ -73,6 +76,8 @@ public class Translator : MonoBehaviour {
 
             string result = XElement.Parse(unityWebRequest.downloadHandler.text).Value;
             Results.instance.SetTranslationResult(result);
+            MicrophoneManager.instance.StopCapturingAudio();
+
         }
             
     }

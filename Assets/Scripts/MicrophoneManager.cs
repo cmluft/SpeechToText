@@ -49,6 +49,7 @@ public class MicrophoneManager : MonoBehaviour {
         Microphone.End(null);
         dictationRecognizer.DictationResult -= DictationReconizer_DictationResult;
         dictationRecognizer.Stop();
+        dictationRecognizer.Dispose();
     }
 
     private void DictationReconizer_DictationResult(string text, ConfidenceLevel confidence)
