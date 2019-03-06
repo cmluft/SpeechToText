@@ -41,6 +41,7 @@ public class MicrophoneManager : MonoBehaviour {
             dictationRecognizer = new DictationRecognizer();
             dictationRecognizer.DictationResult += DictationReconizer_DictationResult;
             dictationRecognizer.Start();
+            startTime = Time.deltaTime;
            // Results.instance.SetMicrophoneStatus("Capturing...");
         }
 
@@ -56,8 +57,9 @@ public class MicrophoneManager : MonoBehaviour {
 
     private void DictationReconizer_DictationResult(string text, ConfidenceLevel confidence)
     {
+       
         Results.instance.SetDicationResult(text);
      
-        StartCoroutine(Translator.instance.TranslateWithUnityNetworking(text));
+        StartCoroutine(Translator.instance.TranslateWithUnityNetworking(text, startTime));
     }
 }
