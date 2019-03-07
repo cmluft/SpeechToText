@@ -564,11 +564,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: Translator
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 00b973c169f3d501
   metroApplicationDescription: Translator
   wsaImages: {}
   metroTileShortName: 

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/SpeechToText.unity
+- path: Assets/Scenes/Hololens_SpeechToText.unity
   isLoaded: 1
   isActive: 1

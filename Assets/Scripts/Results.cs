@@ -15,12 +15,12 @@ public class Results : MonoBehaviour {
     [HideInInspector]
     public string microphoneStatus;
 
-    public Text dictationText;
-    public Text translationText;
-    public Text microphoneText;
+    public TextMesh dictationText;
+    public TextMesh translationText;
+    public TextMesh microphoneText;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

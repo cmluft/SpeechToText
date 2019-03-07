@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/SpeechToText.unity
+  - enabled: 0
+    path: Assets/Scenes/SpeechToText.unity
     guid: eb12780d8cb02ca46ba8dc97f527f55e
+  - enabled: 1
+    path: Assets/Scenes/Hololens_SpeechToText.unity
+    guid: ee451e3b0dd0f2a4f9ad01012fde7af0

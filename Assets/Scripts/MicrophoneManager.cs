@@ -23,7 +23,7 @@ public class MicrophoneManager : MonoBehaviour {
         {
             audioSource = GetComponent<AudioSource>();
             microphoneDetected = true;
-            Results.instance.SetMicrophoneStatus("Working");
+           Results.instance.SetMicrophoneStatus("Working");
              StartCapturingAudio();
 
         }

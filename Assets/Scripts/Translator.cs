@@ -20,7 +20,7 @@ public class Translator : MonoBehaviour {
     public Languages from;
     public Languages to;
 
-    private float waitTime = 800.0f;
+   private float waitTime = 800.0f;
 
    
 
@@ -34,7 +34,7 @@ public class Translator : MonoBehaviour {
     public IEnumerator TranslateWithUnityNetworking(string text, float time)
     {
         //need to only run every 8 mins
-        if (time > Time.deltaTime - waitTime) { 
+        if (time + waitTime > Time.deltaTime ) { 
         using (UnityWebRequest unityWebRequest = UnityWebRequest.Post(translationTokenEndpoint, string.Empty))
         {
             unityWebRequest.SetRequestHeader("Ocp-Apim-Subscription-Key", authorizationKey);
@@ -49,10 +49,10 @@ public class Translator : MonoBehaviour {
             else
             {
                 authorizationToken = unityWebRequest.downloadHandler.text;
-
+                    time = Time.deltaTime;
             }
         }
-        }
+       }
         string queryString = string.Concat("text=", Uri.EscapeDataString(text), "&from=", from, "&to=", to);
 
         using (UnityWebRequest unityWebRequest = UnityWebRequest.Get(translationTextEndpoint + queryString))
