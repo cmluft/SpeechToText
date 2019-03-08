@@ -14,7 +14,8 @@ public class MicrophoneManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
         instance = this;
-	}
+        
+    }
 	
 	// Update is called once per frame
 	void Start () {
@@ -23,32 +24,33 @@ public class MicrophoneManager : MonoBehaviour {
         {
             audioSource = GetComponent<AudioSource>();
             microphoneDetected = true;
-           Results.instance.SetMicrophoneStatus("Working");
-             StartCapturingAudio();
+            Results.instance.SetMicrophoneStatus("Working");
+            StartCapturingAudio();
 
         }
         else
         {
-           // Results.instance.SetMicrophoneStatus("No Microphone Detected");
+            Results.instance.SetMicrophoneStatus("No Microphone Detected");
         }
 	}
-
+  
     public void StartCapturingAudio()
     {
-      // dictationRecognizer.Stop();
+      
         if (microphoneDetected )
         {
             dictationRecognizer = new DictationRecognizer();
             dictationRecognizer.DictationResult += DictationReconizer_DictationResult;
-            dictationRecognizer.Start();
+           
             startTime = Time.deltaTime;
-           // Results.instance.SetMicrophoneStatus("Capturing...");
+            Results.instance.SetMicrophoneStatus("Capturing...");
+            dictationRecognizer.Start();
         }
 
     }
     public void StopCapturingAudio()
     {
-      //  Results.instance.SetMicrophoneStatus("Mic sleeping");
+        Results.instance.SetMicrophoneStatus("Mic sleeping");
         Microphone.End(null);
         dictationRecognizer.DictationResult -= DictationReconizer_DictationResult;
         dictationRecognizer.Stop();
@@ -59,7 +61,7 @@ public class MicrophoneManager : MonoBehaviour {
     {
        
         Results.instance.SetDicationResult(text);
-     
+
         StartCoroutine(Translator.instance.TranslateWithUnityNetworking(text, startTime));
     }
 }

@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Hololens_SpeechToText.unity
     guid: ee451e3b0dd0f2a4f9ad01012fde7af0
+  - enabled: 0
+    path: Assets/Scenes/textdictationonly.unity
+    guid: 1f878fcb56c058e4490399d3cfb6d45c

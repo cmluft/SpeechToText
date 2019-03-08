@@ -18,6 +18,9 @@ public class Results : MonoBehaviour {
     public TextMesh dictationText;
     public TextMesh translationText;
     public TextMesh microphoneText;
+  //  public Text dictationText;
+  
+   
 
     // Use this for initialization
     void Start () {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Xml.Linq;
+using UnityEngine.UI;
 
 
 public class Translator : MonoBehaviour {
@@ -16,19 +17,30 @@ public class Translator : MonoBehaviour {
     private const string authorizationKey = "1922157948de4017b038fb590def9679";
     private string authorizationToken;
 
-    public enum Languages { en, ru, es}
-    public Languages from;
-    public Languages to;
-
+    public enum Languages { en, it, ru, es, fr}
+    private Languages from = Languages.en;
+    private Languages to ;
+    public Dropdown dropdown;
    private float waitTime = 800.0f;
+    private string languageSelected;
 
-   
+
 
     void Awake () {
         instance = this;
 	}
 
+    private void GetLanguage()
+    {
+     
+      
+        languageSelected = dropdown.options[dropdown.value].text;
 
+        if (languageSelected == "Spanish") to = Languages.es;
+        if (languageSelected == "Italian") to = Languages.it;
+        if (languageSelected == "Russian") to = Languages.ru;
+        if (languageSelected == "French") to = Languages.fr;
+    }
 
 
     public IEnumerator TranslateWithUnityNetworking(string text, float time)
@@ -53,6 +65,7 @@ public class Translator : MonoBehaviour {
             }
         }
        }
+        GetLanguage();
         string queryString = string.Concat("text=", Uri.EscapeDataString(text), "&from=", from, "&to=", to);
 
         using (UnityWebRequest unityWebRequest = UnityWebRequest.Get(translationTextEndpoint + queryString))
