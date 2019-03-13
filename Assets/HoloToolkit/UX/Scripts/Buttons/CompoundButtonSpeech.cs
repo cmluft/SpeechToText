@@ -5,6 +5,7 @@ using UnityEngine;
 using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity;
 
+
 namespace HoloToolkit.Unity.Buttons
 {
     /// <summary>
@@ -126,7 +127,7 @@ namespace HoloToolkit.Unity.Buttons
         {
             protected override void DrawCustomFooter() {
                 CompoundButtonSpeech speechButton = (CompoundButtonSpeech)target;
-
+                
                 bool microphoneEnabled = UnityEditor.PlayerSettings.WSA.GetCapability(UnityEditor.PlayerSettings.WSACapability.Microphone);
                 if (!microphoneEnabled) {
                     DrawWarning("Microphone capability not present. Speech recognition will be disabled.");
@@ -158,9 +159,9 @@ namespace HoloToolkit.Unity.Buttons
                 }
             }
 
-            private void EnableMicrophone() {
-                UnityEditor.PlayerSettings.WSA.SetCapability(UnityEditor.PlayerSettings.WSACapability.Microphone, true);
-            }
+            //private void EnableMicrophone() {
+            //    UnityEditor.PlayerSettings.WSA.SetCapability(UnityEditor.PlayerSettings.WSACapability.Microphone, true);
+            //}
 
             private void AddText() {
                 CompoundButtonSpeech speechButton = (CompoundButtonSpeech)target;

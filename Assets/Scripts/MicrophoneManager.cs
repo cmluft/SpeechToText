@@ -62,6 +62,6 @@ public class MicrophoneManager : MonoBehaviour {
        
         Results.instance.SetDicationResult(text);
 
-        StartCoroutine(Translator.instance.TranslateWithUnityNetworking(text, startTime));
+        StartCoroutine(Translator.instance.TranslateWithUnityNetworking(text));
     }
 }

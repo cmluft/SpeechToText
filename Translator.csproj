@@ -934,9 +934,11 @@
     <Compile Include="Assets\HoloToolkit-Examples\UX\Scripts\Widgets\ScaleThemeWidget.cs" />
     <Compile Include="Assets\HoloToolkit-Examples\UX\Scripts\Widgets\TextMeshColorThemeWidget.cs" />
     <Compile Include="Assets\HoloToolkit-Examples\UX\Scripts\Widgets\TextureThemeWidget.cs" />
+    <Compile Include="Assets\MenuFacingCamera.cs" />
     <Compile Include="Assets\Scripts\languages.cs" />
     <Compile Include="Assets\Scripts\MicrophoneManager.cs" />
     <Compile Include="Assets\Scripts\Results.cs" />
+    <Compile Include="Assets\Scripts\SetTranslationLanguageOnClick.cs" />
     <Compile Include="Assets\Scripts\Translator.cs" />
   </ItemGroup>
   <ItemGroup>

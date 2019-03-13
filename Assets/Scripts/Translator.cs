@@ -5,11 +5,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Xml.Linq;
 using UnityEngine.UI;
+using HoloToolkit.Unity.Buttons;
 
+public class Translator
+{
 
-public class Translator : MonoBehaviour {
-
-    public static Translator instance;
+    public static Translator instance = new Translator();
     private string translationTextEndpoint = "https://api.microsofttranslator.com/v2/http.svc/Translate?";
     private string translationTokenEndpoint = "https://centralus.api.cognitive.microsoft.com/sts/v1.0/issueToken?";
     private const string ocpApimSubscriptionKeyHeader = "Ocp-Apim-Subscription-Key";
@@ -17,61 +18,54 @@ public class Translator : MonoBehaviour {
     private const string authorizationKey = "1922157948de4017b038fb590def9679";
     private string authorizationToken;
 
-    public enum Languages { en, it, ru, es, fr}
-    private Languages from = Languages.en;
-    private Languages to ;
-    public Dropdown dropdown;
-   private float waitTime = 800.0f;
-    private string languageSelected;
 
+    public string TranslateFromLanguage = "en";
+    public string TranslateToLanguage = "es";
 
-
-    void Awake () {
-        instance = this;
-	}
-
-    private void GetLanguage()
+    private float waitTime = 8 * 60;
+    
+    void Awake()
     {
-     
-      
-        languageSelected = dropdown.options[dropdown.value].text;
+        instance = this;
 
-        if (languageSelected == "Spanish") to = Languages.es;
-        if (languageSelected == "Italian") to = Languages.it;
-        if (languageSelected == "Russian") to = Languages.ru;
-        if (languageSelected == "French") to = Languages.fr;
     }
 
 
-    public IEnumerator TranslateWithUnityNetworking(string text, float time)
+    float? lastTranslateTime;
+
+    public IEnumerator TranslateWithUnityNetworking(string text)
     {
+        float time = Time.time;
+
         //need to only run every 8 mins
-        if (time + waitTime > Time.deltaTime ) { 
-        using (UnityWebRequest unityWebRequest = UnityWebRequest.Post(translationTokenEndpoint, string.Empty))
+        if (lastTranslateTime == null || (time - lastTranslateTime.Value) > waitTime)
         {
-            unityWebRequest.SetRequestHeader("Ocp-Apim-Subscription-Key", authorizationKey);
-            // unityWebRequest.SetRequestHeader("Subscription-Key", key);
-            yield return unityWebRequest.SendWebRequest();
+            // need to get a new key
+
+            using (UnityWebRequest unityWebRequest = UnityWebRequest.Post(translationTokenEndpoint, string.Empty))
+            {
+                unityWebRequest.SetRequestHeader("Ocp-Apim-Subscription-Key", authorizationKey);
+                // unityWebRequest.SetRequestHeader("Subscription-Key", key);
+                yield return unityWebRequest.SendWebRequest();
 
 
-            if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
-            {
-                yield return null;
-            }
-            else
-            {
-                authorizationToken = unityWebRequest.downloadHandler.text;
-                    time = Time.deltaTime;
+                if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+                {
+                    yield return null;
+                }
+                else
+                {
+                    authorizationToken = unityWebRequest.downloadHandler.text;
+                    lastTranslateTime = time;
+                }
             }
         }
-       }
-        GetLanguage();
-        string queryString = string.Concat("text=", Uri.EscapeDataString(text), "&from=", from, "&to=", to);
+        string queryString = string.Concat("text=", Uri.EscapeDataString(text), "&from=", TranslateFromLanguage, "&to=", TranslateToLanguage);
 
         using (UnityWebRequest unityWebRequest = UnityWebRequest.Get(translationTextEndpoint + queryString))
         {
-            
-            unityWebRequest.SetRequestHeader("Authorization", "Bearer " +  authorizationToken);
+
+            unityWebRequest.SetRequestHeader("Authorization", "Bearer " + authorizationToken);
             unityWebRequest.SetRequestHeader("Accept", "application/xml");
             yield return unityWebRequest.SendWebRequest();
 
@@ -82,9 +76,9 @@ public class Translator : MonoBehaviour {
 
             string result = XElement.Parse(unityWebRequest.downloadHandler.text).Value;
             Results.instance.SetTranslationResult(result);
-           // MicrophoneManager.instance.StopCapturingAudio();
+            // MicrophoneManager.instance.StopCapturingAudio();
 
         }
-            
+
     }
 }
