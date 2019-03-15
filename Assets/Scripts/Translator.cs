@@ -40,12 +40,12 @@ public class Translator
         //need to only run every 8 mins
         if (lastTranslateTime == null || (time - lastTranslateTime.Value) > waitTime)
         {
-            // need to get a new key
+          
 
             using (UnityWebRequest unityWebRequest = UnityWebRequest.Post(translationTokenEndpoint, string.Empty))
             {
                 unityWebRequest.SetRequestHeader("Ocp-Apim-Subscription-Key", authorizationKey);
-                // unityWebRequest.SetRequestHeader("Subscription-Key", key);
+                
                 yield return unityWebRequest.SendWebRequest();
 
 
@@ -75,8 +75,9 @@ public class Translator
             }
 
             string result = XElement.Parse(unityWebRequest.downloadHandler.text).Value;
-            Results.instance.SetTranslationResult(result);
-            // MicrophoneManager.instance.StopCapturingAudio();
+            TranslationResults.instance.SetTranslationResult(result);
+            
+           
 
         }
 

@@ -24,6 +24,7 @@ public class SetTranslationLanguageOnClick : MonoBehaviour
 
     private void Button_OnButtonClicked(GameObject obj)
     {
+        TranslationResults.instance.SpeechOnly = false;
         Translator.instance.TranslateToLanguage = LanguageCode;
     }
 }
